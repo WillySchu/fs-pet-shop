@@ -13,7 +13,12 @@ if (cmd === 'read') {
     var index = process.argv[3];
     var animals = JSON.parse(data);
     if (index) {
-      console.log(animals[index]);
+      if (index > animals.length - 1) {
+        console.error('Please use valid index');
+        process.exit(1);
+      } else {
+        console.log(animals[index]);
+      }
     } else {
       console.log(animals);
     }
