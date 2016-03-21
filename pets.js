@@ -24,9 +24,65 @@ if (cmd === 'read') {
     }
   })
 } else if (cmd === 'create') {
+  fs.readFile(petsPath, 'utf8', function(readErr, data) {
+    if (readErr) throw readErr;
 
+    var animals = JSON.parse(data);
+    var age = process.argv[3];
+    var kind = process.argv[4];
+    var name = process.argv[5];
+
+    if (age && kind && name) {
+      var animal = {};
+      animal.age = Number.parseInt(age);
+      animal.kind = kind;
+      animal.name = name;
+      animals.push(animal);
+      var JSONanimals = JSON.stringify(animals);
+    } else {
+      console.error('Usage: ${node} ${file} create AGE KIND NAME');
+      process.exit(1);
+    }
+
+    fs.writeFile(petsPath, JSONanimals, function(writeErr) {
+      if (writeErr) throw writeErr;
+    })
+    console.log(animal);
+  })
 } else if (cmd === 'update'){
+  fs.readFile(petsPath, 'utf8', function(readErr, data) {
+    if (readErr) throw readErr;
 
+    var animals = JSON.parse(data);
+    var index = Number.parseInt(process.argv[3]);
+    var age = process.argv[4];
+    var kind = process.argv[5];
+    var name = process.argv[6];
+    var newAnimals = [];
+
+    if (index && age && kind && name) {
+      var animal = {};
+      animal.age = Number.parseInt(age);
+      animal.kind = kind;
+      animal.name = name;
+
+      for (var i = 0; i < animals.length; i++) {
+        if (index === i) {
+          newAnimals.push(animal);
+        }
+        newAnimals.push(animals[i]);
+      }
+      var JSONanimals = JSON.stringify(newAnimals);
+    } else {
+      console.error('Usage: ${node} ${file} create INDEX AGE KIND NAME');
+      process.exit(1);
+    }
+
+    fs.writeFile(petsPath, JSONanimals, function(writeErr) {
+      if (writeErr) throw writeErr;
+    })
+    console.log(animal);
+  })
 } else if (cmd === 'destroy') {
 
 } else {
