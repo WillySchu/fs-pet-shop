@@ -10,7 +10,7 @@ const file = path.basename(process.argv[1]);
 const cmd = process.argv[2];
 
 if (cmd === 'read') {
-  fs.readFile(petsPath, 'utf8', function(err, data) {
+  fs.readFile(petsPath, 'utf8', (err, data) => {
     if (err) throw err;
 
     const index = process.argv[3];
@@ -28,7 +28,7 @@ if (cmd === 'read') {
     }
   });
 } else if (cmd === 'create') {
-  fs.readFile(petsPath, 'utf8', function(readErr, data) {
+  fs.readFile(petsPath, 'utf8', (readErr, data) => {
     if (readErr) throw readErr;
 
     const animals = JSON.parse(data);
@@ -40,7 +40,7 @@ if (cmd === 'read') {
 
     if (age && kind && name) {
       animal = {};
-      animal.age = Number.parseInt(age);
+      animal.age = Number.parseInt(age, 10);
       animal.kind = kind;
       animal.name = name;
       animals.push(animal);
@@ -50,17 +50,17 @@ if (cmd === 'read') {
       process.exit(1);
     }
 
-    fs.writeFile(petsPath, JSONanimals, function(writeErr) {
+    fs.writeFile(petsPath, JSONanimals, (writeErr) => {
       if (writeErr) throw writeErr;
     });
     console.log(animal);
   });
 } else if (cmd === 'update') {
-  fs.readFile(petsPath, 'utf8', function(readErr, data) {
+  fs.readFile(petsPath, 'utf8', (readErr, data) => {
     if (readErr) throw readErr;
 
     const animals = JSON.parse(data);
-    const index = Number.parseInt(process.argv[3]);
+    const index = Number.parseInt(process.argv[3], 10);
     const age = process.argv[4];
     const kind = process.argv[5];
     const name = process.argv[6];
@@ -69,7 +69,7 @@ if (cmd === 'read') {
     let animal = {};
 
     if ((index >= 0) && age && kind && name) {
-      animal.age = Number.parseInt(age);
+      animal.age = Number.parseInt(age, 10);
       animal.kind = kind;
       animal.name = name;
 
@@ -85,13 +85,13 @@ if (cmd === 'read') {
       process.exit(1);
     }
 
-    fs.writeFile(petsPath, JSONanimals, function(writeErr) {
+    fs.writeFile(petsPath, JSONanimals, (writeErr) => {
       if (writeErr) throw writeErr;
     });
     console.log(animal);
   });
 } else if (cmd === 'destroy') {
-  fs.readFile(petsPath, 'utf8', function(readErr, data) {
+  fs.readFile(petsPath, 'utf8', (readErr, data) => {
     if (readErr) throw readErr;
 
     let animals = JSON.parse(data);
@@ -105,7 +105,7 @@ if (cmd === 'read') {
     }
     animal = animals.splice(index, 1);
     JSONanimals = JSON.stringify(animals);
-    fs.writeFile(petsPath, JSONanimals, function(writeErr) {
+    fs.writeFile(petsPath, JSONanimals, (writeErr) => {
       if (writeErr) throw writeErr;
     });
     console.log(animal);
