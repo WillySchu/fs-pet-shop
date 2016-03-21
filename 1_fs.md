@@ -1,6 +1,5 @@
 # Node Filesystem
-
-![pet-shop](https://i.imgur.com/9tvF4Lx.jpg)
+pet-shop](https://i.imgur.com/9tvF4Lx.jpg)
 
 A local pet shop keeps a database for all the pets they have in stock. However, they need you to build a command-line application in Node to handle a variety of subcommands and log the results to the console.
 
