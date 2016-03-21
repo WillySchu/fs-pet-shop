@@ -40,7 +40,7 @@ if (cmd === 'read') {
       animals.push(animal);
       var JSONanimals = JSON.stringify(animals);
     } else {
-      console.error('Usage: ${node} ${file} create AGE KIND NAME');
+      console.error(`Usage: ${node} ${file} create AGE KIND NAME`);
       process.exit(1);
     }
 
@@ -74,7 +74,7 @@ if (cmd === 'read') {
       }
       var JSONanimals = JSON.stringify(newAnimals);
     } else {
-      console.error('Usage: ${node} ${file} create INDEX AGE KIND NAME');
+      console.error(`Usage: ${node} ${file} create INDEX AGE KIND NAME`);
       process.exit(1);
     }
 
@@ -84,7 +84,23 @@ if (cmd === 'read') {
     console.log(animal);
   })
 } else if (cmd === 'destroy') {
+  fs.readFile(petsPath, 'utf8', function(readErr, data) {
+    if (readErr) throw readErr;
 
+    var animals = JSON.parse(data);
+    var index = process.argv[3];
+
+    if (!index || index < 0 || animals.length - 1 < index) {
+      console.error(`Usage: ${node} ${file} destroy INDEX`);
+      process.exit(1);
+    }
+    var animal = animals.splice(index, 1);
+    JSONanimals = JSON.stringify(animals);
+    fs.writeFile(petsPath, JSONanimals, function(writeErr) {
+      if (writeErr) throw writeErr;
+    })
+    console.log(animal);
+  })
 } else {
   console.error(`Usage: ${node} ${file} [read | create | update | destroy]`);
   process.exit(1);
