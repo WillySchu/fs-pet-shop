@@ -10,7 +10,13 @@ if (cmd === 'read') {
   fs.readFile(petsPath, 'utf8', function(err, data) {
     if (err) throw err;
 
-    console.log(JSON.parse(data));
+    var index = process.argv[3];
+    var animals = JSON.parse(data);
+    if (index) {
+      console.log(animals[index]);
+    } else {
+      console.log(animals);
+    }
   })
 } else if (cmd === 'create') {
 
