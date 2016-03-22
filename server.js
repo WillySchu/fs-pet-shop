@@ -4,6 +4,7 @@ var routes = require('./routes');
 var path = require('path');
 var petsPath = path.join(__dirname, 'pets.json');
 var pets = /^\/pets\/(.*)$/;
+var port = process.env.PORT || 8080;
 var server = http.createServer(function(req, res) {
   if (routes[req.url]) {
     routes[req.url](req, res);
@@ -14,4 +15,6 @@ var server = http.createServer(function(req, res) {
   }
 });
 
-server.listen(process.env.PORT || 8080);
+server.listen(port, function() {
+  console.log('listening on port ' + port);
+});
