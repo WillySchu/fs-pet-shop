@@ -1,1 +1,20 @@
-{"main": "./server.js"}
+{
+  "name": "package",
+  "version": "1.0.0",
+  "description": "This is a multi-day assignment split into the following parts. Your task is to complete each part's assignment, one at a time, before moving on to the next part.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WillySchu/fs-pet-shop.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WillySchu/fs-pet-shop/issues"
+  },
+  "homepage": "https://github.com/WillySchu/fs-pet-shop#readme"
+}
