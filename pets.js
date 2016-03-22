@@ -76,8 +76,9 @@ if (cmd === 'read') {
       for (let i = 0; i < animals.length; i++) {
         if (index === i) {
           newAnimals.push(animal);
+        } else {
+          newAnimals.push(animals[i]);
         }
-        newAnimals.push(animals[i]);
       }
       JSONanimals = JSON.stringify(newAnimals);
     } else {
