@@ -12,7 +12,7 @@ app.get('/pets/:index', routes.getInd);
 
 app.post('/pets' || '/pets/', upload.array(), routes.post);
 
-app.get('/*', function(req, res) {
+app.all('/*', function(req, res) {
   res.status = 404;
   res.send('404, file not found');
 });

@@ -14,7 +14,6 @@ const routes = {
   getInd: function(req, res, next) {
     fs.readFile(petsPath, 'utf8', (err, data) => {
       if (err) return next(err);
-      return next(new Error());
 
       const animals = JSON.parse(data);
       if (req.params.index > animals.length -1) {
