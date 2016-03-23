@@ -1,7 +1,5 @@
 const express = require('express');
 const app = express();
-const multer = require('multer');
-const upload = multer();
 const routes = require('./routes');
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -10,7 +8,7 @@ app.get('/pets' || '/pets/', routes.getAll);
 
 app.get('/pets/:index', routes.getInd);
 
-app.post('/pets' || '/pets/', upload.array(), routes.post);
+app.post('/pets' || '/pets/', routes.post);
 
 app.all('/*', function(req, res) {
   res.status = 404;
