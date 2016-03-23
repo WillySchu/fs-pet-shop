@@ -1,17 +1,22 @@
-const http = require('http');
+const express = require('express');
+const app = express();
+const multer = require('multer');
+const upload = multer();
 const routes = require('./routes');
-const pets = /^\/pets\/(.*)$/;
-const port = process.env.PORT || 8080;
-const server = http.createServer((req, res) => {
-  if (routes[req.url]) {
-    routes[req.url](req, res);
-  } else if (req.url.match(pets)) {
-    routes[req.url.slice(0, -1)](req, res);
-  } else {
-    routes.unknown(req, res);
-  }
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
+app.get('/pets' || '/pets/', routes.getAll);
+
+app.get('/pets/:index', routes.getInd);
+
+app.post('/pets' || '/pets/', upload.array(), routes.post);
+
+app.get('/*', function(req, res) {
+  res.status = 404;
+  res.send('404, file not found');
 });
 
-server.listen(port, function() {
-  console.log(`listening on port ${port}`);
+app.listen(8000, function() {
+  console.log('listening on port 8000');
 });

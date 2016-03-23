@@ -8,7 +8,7 @@ const routes = {
     fs.readFile(petsPath, 'utf8', (err, data) => {
       if (err) throw err;
 
-      res.status(200).send(data);
+      res.status(200).send(JSON.parse(data));
     })
   },
   getInd: function(req, res) {
@@ -37,7 +37,7 @@ const routes = {
         fs.writeFile(petsPath, JSON.stringify(animals), (writeErr) => {
           if (writeErr) throw writeErr;
         });
-        res.send(animal);
+        res.status(200).send(animal);
       });
     } else {
       res.status(400).send('Bad Request')
