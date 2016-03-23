@@ -41,7 +41,7 @@ const routes = {
           var animals = JSON.parse(data);
           if (index > animals.length - 1) {
             res.statusMessage = 404;
-            res.end('No entry at index ${index}');
+            res.end(`No entry at index ${index}`);
           }
           const animal = animals[index];
           res.statusMessage = 200;
