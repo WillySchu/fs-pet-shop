@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/WillySchu/fs-pet-shop/issues"
   },
-  "homepage": "https://github.com/WillySchu/fs-pet-shop#readme"
+  "homepage": "https://github.com/WillySchu/fs-pet-shop#readme",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
 }
