@@ -35,16 +35,15 @@ app.delete('/pets/:index', routes.delete);
 
 app.patch('/pets/:index', routes.patch);
 
-app.all('/*', function(req, res) {
-  res.status = 404;
-  res.send('404, file not found');
+app.all('/*', (req, res) => {
+  res.status(400).send('404, file not found');
 });
 
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   console.error(err.stack);
   return res.send(500, { message: err.message });
 });
 
-app.listen(8000, function() {
+app.listen(8000, () => {
   console.log('listening on port 8000');
 });
