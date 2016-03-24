@@ -10,7 +10,7 @@ const routes = {
     const promise = readFile();
     promise.then((animals) => {
       res.status(200).send(animals);
-    })
+    });
   },
   getInd: function(req, res, next) {
     const promise = readFile();
@@ -77,9 +77,9 @@ const routes = {
 
       fs.writeFile(petsPath, JSON.stringify(animals), (writeErr) => {
         if (writeErr) return next(writeErr);
-      })
+      });
       res.status(200).send(animal);
-    })
+    });
   },
   patch: function(req, res, next) {
     const index = parseInt(req.params.index, 10)
@@ -117,7 +117,7 @@ function readFile() {
       if (err) return reject(err);
 
       resolve(JSON.parse(data));
-    })
+    });
   });
   return myPromise;
 }
