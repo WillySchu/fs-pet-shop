@@ -27,13 +27,14 @@ const routes = {
     })
   },
   post: function(req, res, next) {
-    if (req.body.age && req.body.kind && typeof parseInt(req.body.age, 10) === 'number') {
+    const index = parseInt(req.body.age, 10);
+    if (req.body.age && req.body.kind && typeof index === 'number') {
       fs.readFile(petsPath, 'utf8', (readErr, data) => {
         if(readErr) return next(readErr);
 
         const animals = JSON.parse(data);
         const animal = {};
-        animal.age = parseInt(req.body.age, 10);
+        animal.age = index;
         animal.kind = req.body.kind;
         animal.name = req.body.name;
         animals.push(animal);
@@ -47,11 +48,11 @@ const routes = {
     }
   },
   put: function(req, res, next) {
-    if (req.body.age && req.body.kind && typeof parseInt(req.body.age, 10) === 'number') {
+    const index = parseInt(req.params.index, 10)
+    if (req.body.age && req.body.kind && typeof index === 'number') {
       fs.readFile(petsPath, 'utf8', (readErr, data) => {
         if(readErr) return next(readErr);
 
-        const index = parseInt(req.params.index, 10)
         let animals = JSON.parse(data);
         if (index >= animals.length || index < 0) {
           res.status(400).send(`Bad Request: No entry at index ${req.params.index}`);
@@ -66,6 +67,8 @@ const routes = {
         });
         res.status(200).send(animal);
       });
+    } else {
+      res.status(400).send('Bad Request');
     }
   },
   delete: function(req, res, next) {
@@ -86,6 +89,36 @@ const routes = {
       })
       res.status(200).send(animal);
     })
+  },
+  patch: function(req, res, next) {
+    const index = parseInt(req.params.index, 10)
+    if (req.body.age || req.body.kind || typeof index === 'number') {
+      fs.readFile(petsPath, 'utf8', (readErr, data) => {
+        if(readErr) return next(readErr);
+
+        let animals = JSON.parse(data);
+        if (index >= animals.length || index < 0) {
+          res.status(400).send(`Bad Request: No entry at index ${req.params.index}`);
+        }
+        const animal = animals[index];
+        if (req.body.age) {
+          animal.age = parseInt(req.body.age, 10);
+        }
+        if (req.body.kind) {
+          animal.kind = req.body.kind;
+        }
+        if (req.body.name) {
+          animal.name = req.body.name;
+        }
+        animals[index] = animal;
+        fs.writeFile(petsPath, JSON.stringify(animals), (writeErr) => {
+          if(writeErr) return next(writeErr);
+        });
+        res.status(200).send(animal);
+      });
+    }
+  } else {
+    res.status(400).send('Bad Request');
   }
 }
 

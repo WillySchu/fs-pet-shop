@@ -18,6 +18,8 @@ app.put('/pets/:index', routes.put);
 
 app.delete('/pets/:index', routes.delete);
 
+app.patch('/pets/:index', routes.patch);
+
 app.all('/*', function(req, res) {
   res.status = 404;
   res.send('404, file not found');
