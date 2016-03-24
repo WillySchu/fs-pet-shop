@@ -96,7 +96,7 @@ const routes = {
       fs.readFile(petsPath, 'utf8', (readErr, data) => {
         if(readErr) return next(readErr);
 
-        let animals = JSON.parse(data);
+        const animals = JSON.parse(data);
         if (index >= animals.length || index < 0) {
           res.status(400).send(`Bad Request: No entry at index ${req.params.index}`);
         }
