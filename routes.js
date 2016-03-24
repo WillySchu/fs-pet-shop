@@ -116,9 +116,9 @@ const routes = {
         });
         res.status(200).send(animal);
       });
+    } else {
+      res.status(400).send('Bad Request');
     }
-  } else {
-    res.status(400).send('Bad Request');
   }
 }
 
