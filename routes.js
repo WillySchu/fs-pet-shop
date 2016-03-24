@@ -7,32 +7,27 @@ const path = require('path');
 const petsPath = path.join(__dirname, 'pets.json');
 const routes = {
   getAll: function(req, res, next) {
-    fs.readFile(petsPath, 'utf8', (err, data) => {
-      if (err) return next(err);
-
-      res.status(200).send(JSON.parse(data));
+    const promise = readFile();
+    promise.then((animals) => {
+      res.status(200).send(animals);
     })
   },
   getInd: function(req, res, next) {
-    fs.readFile(petsPath, 'utf8', (err, data) => {
-      if (err) return next(err);
-
-      const animals = JSON.parse(data);
+    const promise = readFile();
+    promise.then((animals) => {
       const index = parseInt(req.params.index, 10);
       if (index >= animals.length || index < 0) {
         res.status(404).send(`No entry at index ${req.params.index}`)
       }
-      const animal = animals[req.params.index]
+      const animal = animals[index];
       res.status(200).send(animal);
-    })
+    });
   },
   post: function(req, res, next) {
     const index = parseInt(req.body.age, 10);
     if (req.body.age && req.body.kind && typeof index === 'number') {
-      fs.readFile(petsPath, 'utf8', (readErr, data) => {
-        if(readErr) return next(readErr);
-
-        const animals = JSON.parse(data);
+      const promise = readFile();
+      promise.then((animals) => {
         const animal = {};
         animal.age = index;
         animal.kind = req.body.kind;
@@ -50,10 +45,8 @@ const routes = {
   put: function(req, res, next) {
     const index = parseInt(req.params.index, 10)
     if (req.body.age && req.body.kind && typeof index === 'number') {
-      fs.readFile(petsPath, 'utf8', (readErr, data) => {
-        if(readErr) return next(readErr);
-
-        let animals = JSON.parse(data);
+      const promise = readFile();
+      promise.then((animals) => {
         if (index >= animals.length || index < 0) {
           res.status(400).send(`Bad Request: No entry at index ${req.params.index}`);
         }
@@ -72,10 +65,8 @@ const routes = {
     }
   },
   delete: function(req, res, next) {
-    fs.readFile(petsPath, 'utf8', (readErr, data) => {
-      if (readErr) return next(readErr);
-
-      const animals = JSON.parse(data);
+    const promise = readFile();
+    promise.then((animals) => {
       const index = parseInt(req.params.index, 10);
 
       if (index >= animals.length || index < 0) {
@@ -93,10 +84,8 @@ const routes = {
   patch: function(req, res, next) {
     const index = parseInt(req.params.index, 10)
     if (req.body.age || req.body.kind || typeof index === 'number') {
-      fs.readFile(petsPath, 'utf8', (readErr, data) => {
-        if(readErr) return next(readErr);
-
-        const animals = JSON.parse(data);
+      const promise = readFile();
+      promise.then((animals) => {
         if (index >= animals.length || index < 0) {
           res.status(400).send(`Bad Request: No entry at index ${req.params.index}`);
         }
@@ -120,6 +109,17 @@ const routes = {
       res.status(400).send('Bad Request');
     }
   }
+}
+
+function readFile() {
+  const myPromise = new Promise(function(resolve, reject) {
+    fs.readFile(petsPath, 'utf8', (err, data) => {
+      if (err) return reject(err);
+
+      resolve(JSON.parse(data));
+    })
+  });
+  return myPromise;
 }
 
 module.exports = routes;
