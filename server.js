@@ -2,6 +2,10 @@ const express = require('express');
 const app = express();
 const routes = require('./routes');
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
+
+app.disable('x-powered-by');
+app.use(morgan('short'));
 app.use(bodyParser.json());
 
 app.get('/pets' || '/pets/', routes.getAll);
@@ -9,6 +13,10 @@ app.get('/pets' || '/pets/', routes.getAll);
 app.get('/pets/:index', routes.getInd);
 
 app.post('/pets' || '/pets/', routes.post);
+
+app.put('/pets/:index', routes.put);
+
+app.delete('/pets/:index', routes.delete);
 
 app.all('/*', function(req, res) {
   res.status = 404;
