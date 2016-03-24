@@ -3,6 +3,21 @@ const app = express();
 const routes = require('./routes');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const ba = require('basic-auth');
+
+app.use((req, res, next) => {
+  var user = ba(req);
+
+  if (! user || !user.name || !user.pass) {
+    return res.status(401).send('Unauthorized');
+  };
+
+  if (user.name === 'admin' && user.pass === 'password') {
+    return next();
+  } else {
+    return res.status(401).send('Unauthorized');
+  };
+});
 
 app.disable('x-powered-by');
 app.use(morgan('short'));
