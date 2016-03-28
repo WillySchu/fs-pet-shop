@@ -10,7 +10,7 @@ const ba = require('basic-auth');
 app.disable('x-powered-by');
 
 app.use((req, res, next) => {
-  var user = ba(req);
+  const user = ba(req);
 
   if (! user || !user.name || !user.pass) {
     return res.status(401).send('Unauthorized');
