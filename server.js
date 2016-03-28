@@ -36,7 +36,7 @@ app.delete('/pets/:index', routes.delete);
 app.patch('/pets/:index', routes.patch);
 
 app.all('/*', (req, res) => {
-  res.status(400).send('404, file not found');
+  res.status(404).send('404, file not found');
 });
 
 app.use((err, req, res, next) => {
