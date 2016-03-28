@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const ba = require('basic-auth');
 
+app.disable('x-powered-by');
+
 app.use((req, res, next) => {
   var user = ba(req);
 
@@ -21,7 +23,6 @@ app.use((req, res, next) => {
   };
 });
 
-app.disable('x-powered-by');
 app.use(morgan('short'));
 app.use(bodyParser.json());
 
