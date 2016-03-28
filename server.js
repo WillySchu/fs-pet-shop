@@ -12,13 +12,10 @@ app.disable('x-powered-by');
 app.use((req, res, next) => {
   const user = ba(req);
 
-  if (! user || !user.name || !user.pass) {
-    return res.status(401).send('Unauthorized');
-  };
-
-  if (user.name === 'admin' && user.pass === 'password') {
+  if (user && user.name === 'admin' && user.pass === 'password') {
     return next();
   } else {
+    res.set('WWW-Authenticate', 'Basic realm="Required"');
     return res.status(401).send('Unauthorized');
   };
 });
