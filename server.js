@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const ba = require('basic-auth');
 
+app.use(morgan('short'));
 app.disable('x-powered-by');
 
 app.use((req, res, next) => {
@@ -20,14 +21,13 @@ app.use((req, res, next) => {
   };
 });
 
-app.use(morgan('short'));
 app.use(bodyParser.json());
 
-app.get('/pets' || '/pets/', routes.getAll);
+app.get('/pets/', routes.getAll);
 
 app.get('/pets/:index', routes.getInd);
 
-app.post('/pets' || '/pets/', routes.post);
+app.post('/pets/', routes.post);
 
 app.put('/pets/:index', routes.put);
 

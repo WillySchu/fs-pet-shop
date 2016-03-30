@@ -10,6 +10,8 @@ const routes = {
     const promise = readFile();
     promise.then((animals) => {
       res.status(200).send(animals);
+    }).catch((err) => {
+      return next(err);
     });
   },
   getInd: function(req, res, next) {
@@ -17,7 +19,7 @@ const routes = {
     promise.then((animals) => {
       const index = parseInt(req.params.index, 10);
       if (index >= animals.length || index < 0) {
-        res.status(404).send(`No entry at index ${req.params.index}`)
+        return res.status(404).send(`No entry at index ${req.params.index}`)
       }
       const animal = animals[index];
       res.status(200).send(animal);
@@ -35,6 +37,8 @@ const routes = {
         animals.push(animal);
         fs.writeFile(petsPath, JSON.stringify(animals), (writeErr) => {
           if (writeErr) return next(writeErr);
+        }).catch((err) => {
+          return next(err);
         });
         res.status(200).send(animal);
       });
@@ -48,7 +52,7 @@ const routes = {
       const promise = readFile();
       promise.then((animals) => {
         if (index >= animals.length || index < 0) {
-          res.status(400).send(`Bad Request: No entry at index ${req.params.index}`);
+          return res.status(400).send(`Bad Request: No entry at index ${req.params.index}`);
         }
         const animal = {};
         animal.age = parseInt(req.body.age, 10);
@@ -59,6 +63,8 @@ const routes = {
           if(writeErr) return next(writeErr);
         });
         res.status(200).send(animal);
+      }).catch((err) => {
+        return next(err);
       });
     } else {
       res.status(400).send('Bad Request');
@@ -70,7 +76,7 @@ const routes = {
       const index = parseInt(req.params.index, 10);
 
       if (index >= animals.length || index < 0) {
-        res.status(400).send(`Bad Request: No entry at index ${req.params.index}`);
+        return res.status(400).send(`Bad Request: No entry at index ${req.params.index}`);
       }
 
       const animal = animals.splice(parseInt(req.params.index), 1)[0];
@@ -79,6 +85,8 @@ const routes = {
         if (writeErr) return next(writeErr);
       });
       res.status(200).send(animal);
+    }).catch((err) => {
+      return next(err);
     });
   },
   patch: function(req, res, next) {
